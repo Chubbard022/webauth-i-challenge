@@ -6,24 +6,22 @@ const port = 5000;
 
 const Users = require('./routes/route-model')
 const protected = require('./auth/protected-middleware')
-
 const server = express();
 
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
-
+//--------------------------------------------------------------------------------------------
 server.get('/', (req, res) => {
   res.send("It's alive!");
 });
-
+//--------------------------------------------------------------------------------------------
 server.post('/api/register', (req, res) => {
   let user = req.body;
-  // check for username and password
 
-  const hash = bcrypt.hashSync(user.password, 8); // 2^8 rounds <<<<<<<<<<<<
-  // pass > hashit > hash > hashit > hash > hashit > hash
-  user.password = hash; // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  const hash = bcrypt.hashSync(user.password, 8); 
+
+  user.password = hash;
 
   Users.add(user)
     .then(saved => {
@@ -33,7 +31,7 @@ server.post('/api/register', (req, res) => {
       res.status(500).json(error);
     });
 });
-
+//--------------------------------------------------------------------------------------------
 server.post('/api/login', (req, res) => {
   let { username, password } = req.body;
 
@@ -52,8 +50,7 @@ server.post('/api/login', (req, res) => {
       res.status(500).json(error);
     });
 });
-
-// protect this route, users must provide valid username/password to see the list of users
+//--------------------------------------------------------------------------------------------
 server.get('/api/users', protected, (req, res) => {
   Users.find()
     .then(users => {
@@ -61,5 +58,5 @@ server.get('/api/users', protected, (req, res) => {
     })
     .catch(err => res.send(err));
 });
-
+//--------------------------------------------------------------------------------------------
 server.listen(port, () => console.log(`\n** Running on port ${port} **\n`));
