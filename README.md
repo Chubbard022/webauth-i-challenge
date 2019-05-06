@@ -2,7 +2,7 @@
 
 ## Topics
 
-- Authentication.
+-0- Authentication.
 - Express Middleware.
 - Password Hashing.
 - Sessions
