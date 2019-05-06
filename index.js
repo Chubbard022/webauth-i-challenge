@@ -1,9 +1,10 @@
 const express = require("express")
 const helmet = require("helmet")
 const cors = require("cors")
+const bcrypt = require("bcryptjs")
 
 const db = require("./database/dbConfig")
-const Users = require("./routes/user-model")
+const Users = require("./routes/route-model")
 const protected = require("./auth/protected-middleware")
 
 const server = express()
@@ -16,6 +17,23 @@ const PORT = 5000;
 server.get("/",(req,res)=>{
     res.send("server working")
 })
+
+server.post("/api/register",(req,res)=>{
+    const user = req.body;
+    const hash = bcrypt.hashSync(user.password,8)
+
+    user.password = hash;
+
+    Users.add(user)
+    .then(response =>{
+        res.status(201).json(response)
+    })
+    .catch(err =>{
+        res.status(500).json(err)
+    })
+})
+
+
 
 
 
