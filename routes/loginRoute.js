@@ -1,4 +1,3 @@
-const knex = require("knex");
 const router = require("express").Router();
 const Users = require("./route-model")
 const bcrypt = require('bcryptjs'); 
