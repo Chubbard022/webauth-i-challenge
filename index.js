@@ -30,7 +30,7 @@ server.use(cors());
 server.use("/api/users",usersRouter)
 server.use("/api/register",registerRouter)
 server.use("/api/login",loginRouter)
-server.use("/api/logout")
+server.use("/api/logout", logoutRouter)
 
 server.get('/', (req, res) => {
   res.send("Server up and Running");
