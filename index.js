@@ -4,10 +4,8 @@ const cors = require('cors');
 const port = 5000;
 const session = require("express-session")
 
-const loginRouter = require("./routes/loginRoute")
-const registerRouter = require("./routes/registerRoute")
+const authRouter = require("./routes/authRoute")
 const usersRouter = require("./routes/userRoute")
-const logoutRouter = require("./routes/logoutRoute")
 const server = express();
 
 const sessionConfig = {
@@ -28,9 +26,7 @@ server.use(express.json());
 server.use(cors());
 
 server.use("/api/users",usersRouter)
-server.use("/api/register",registerRouter)
-server.use("/api/login",loginRouter)
-server.use("/api/logout", logoutRouter)
+server.use("/api/auth",authRouter)
 
 server.get('/', (req, res) => {
   res.send("Server up and Running");
